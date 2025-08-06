@@ -1,10 +1,12 @@
 FROM nginx:latest
 
-# 脆弱な openssl を入れる
-RUN apt-get update && \
-    apt-get install -y wget gnupg && \
-    echo "deb [trusted=yes] http://old-releases.ubuntu.com/ubuntu bionic main universe" > /etc/apt/sources.list.d/bionic.list && \
-    apt-get update && \
-    apt-get install -y openssl=1.1.1-1ubuntu2.1~18.04.20 || true && \
-    rm -rf /var/lib/apt/lists/*
+WORKDIR /tmp
+
+# 必要ツールのインストール
+RUN apt-get update && apt-get install -y wget gnupg libssl1.1
+
+# 脆弱なOpenSSLを手動でダウンロードしてインストール
+RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/openssl_1.1.1-1ubuntu2.1~18.04.20_amd64.deb && \
+    dpkg -i openssl_1.1.1-1ubuntu2.1~18.04.20_amd64.deb || true && \
+    rm -f openssl_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
 
