@@ -2,11 +2,11 @@ FROM nginx:latest
 
 WORKDIR /tmp
 
-# 必要ツールのインストール
-RUN apt-get update && apt-get install -y wget gnupg libssl1.1
+RUN apt-get update && apt-get install -y wget gnupg
 
-# 脆弱なOpenSSLを手動でダウンロードしてインストール
-RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/openssl_1.1.1-1ubuntu2.1~18.04.20_amd64.deb && \
-    dpkg -i openssl_1.1.1-1ubuntu2.1~18.04.20_amd64.deb || true && \
-    rm -f openssl_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
+# 脆弱な libssl1.1 を Ubuntu から手動で取得してインストール
+RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb && \
+    dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb || true
+
+RUN ldconfig && dpkg -l | grep libssl
 
