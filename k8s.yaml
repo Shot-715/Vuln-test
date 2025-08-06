@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vuln-nginx
+spec:
+  containers:
+  - name: nginx
+    image: ghcr.io/Shot-715/vuln-nginx:latest
+    ports:
+    - containerPort: 80
+
