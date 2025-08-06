@@ -1,6 +1,6 @@
 FROM nginx:latest
 
-# 古いUbuntuのパッケージリポジトリを追加して、そこから脆弱なOpenSSLをインストール
+# 脆弱な openssl を入れる
 RUN apt-get update && \
     apt-get install -y wget gnupg && \
     echo "deb [trusted=yes] http://old-releases.ubuntu.com/ubuntu bionic main universe" > /etc/apt/sources.list.d/bionic.list && \
